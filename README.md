@@ -1,3 +1,5 @@
+![Hear My Dot — Give ChatGPT audio room](assets/readme-header.png)
+
 # Hear My Dot
 
 A small, independently written Chrome Manifest V3 prototype: when an unmuted tab on **chatgpt.com** reports audio activity, playing YouTube videos and Podverse media in the same Chrome profile are paused and other tabs are muted. All ChatGPT tabs are exempt, regardless of their URL path. After **10 seconds of silence**, configurable from 10 to 20 seconds, the extension resumes only videos it paused itself and restores only its own mute changes. Saved custom quiet-period values are preserved when updating. Tabs that were already muted stay muted; manual changes take priority.
@@ -28,7 +30,19 @@ If the content script is unavailable, no accessible media element is found, or p
 
 Official sources reviewed: [Podverse's web-app description](https://github.com/podverse/podverse-web) documents audio, video and livestream playback; [Podverse About](https://podverse.fm/about) describes the service. The repository identifies its own license as AGPL-3.0. No Podverse implementation code or assets were copied or bundled; this extension's original adapter uses standard browser media APIs. The deployed player DOM and end-to-end playback have **not** been verified in Chrome. A deeper source-tree API inspection was unavailable in this environment, so this is a guarded adapter with a mute fallback, not a claim of complete Podverse compatibility.
 
-## Updating to 0.3.0
+## Toolbar status
+
+Pin Hear My Dot from Chrome's extensions menu to see its static toolbar icon. Clicking it opens the options. Status is shown with shape, contrast, a short badge, and an accessible tooltip, not color alone:
+
+| Icon | State | Meaning |
+| --- | --- | --- |
+| Slashed dot/waves, gray (`OFF`) | Disabled | Focus is switched off in the options. |
+| Dot with one wave, navy | Ready | Waiting for ChatGPT output-audio activity. |
+| Dot with two waves, teal (`ON` or `WAIT`) | Active prioritization | `ON` means the priority period is active. `WAIT` includes the quiet period or pending restoration. |
+
+During the quiet period the tooltip says that prioritization is still active and shows the configured delay target; it does not claim ChatGPT is speaking. The icon describes the focus state, not the number of tabs changed or guaranteed speaker output. Restoration pending takes precedence over the disabled label when a mute restoration must be retried. Icons and the README header are original static artwork; no animation or external brand assets are used.
+
+## Updating to 0.3.1
 
 1. Before reloading an older version, disable focus through the extension's options and wait for its changes to be restored.
 2. Run `git pull --ff-only` in your local repository to update the files, then reload the unpacked extension in `chrome://extensions`. Review any Chrome permission prompt yourself. Version 0.3.0 adds access to **podverse.fm** for its pause/resume content script. Version 0.2.0 already added **youtube.com, www.youtube.com, and m.youtube.com**. These permissions identify the supported tabs and allow their media elements to be controlled. It does not add the `scripting` or broad `tabs` permission.

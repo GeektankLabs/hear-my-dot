@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Hear My Dot",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Pause YouTube and Podverse, mute other tabs during ChatGPT audio, then restore owned changes.",
   "minimum_chrome_version": "120",
   "permissions": [
@@ -49,5 +49,19 @@
       "run_at": "document_idle",
       "all_frames": false
     }
-  ]
+  ],
+  "icons": {
+    "16": "icons/active-16.png",
+    "32": "icons/active-32.png",
+    "48": "icons/active-48.png",
+    "128": "icons/active-128.png"
+  },
+  "action": {
+    "default_title": "Hear My Dot \u2014 initializing status. Click to open options.",
+    "default_icon": {
+      "16": "icons/ready-16.png",
+      "24": "icons/ready-24.png",
+      "32": "icons/ready-32.png"
+    }
+  }
 }

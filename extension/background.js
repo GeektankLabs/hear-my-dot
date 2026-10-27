@@ -1,3 +1,4 @@
+import { updateToolbar } from './toolbar.mjs';
 import { initial, reconcile } from './core.mjs';
 let queue = Promise.resolve();
 let timer;
@@ -12,6 +13,9 @@ function schedule() {
       timer = setTimeout(schedule, Math.max(0, due - Date.now()));
       await chrome.alarms.create('release', { when: due });
     }
+    // UI errors must not interrupt focus restoration or its timer.
+    try { await updateToolbar(chrome.action, focusState, settings); }
+    catch (error) { console.warn('Hear My Dot toolbar:', error); }
   }).catch(error => console.error('Hear My Dot:', error));
 }
 chrome.tabs.onUpdated.addListener((_id, change) => {
@@ -29,3 +33,5 @@ schedule();
 chrome.runtime.onMessage.addListener((message, sender) => {
   if (['hear-my-dot-youtube-ready', 'hear-my-dot-podverse-ready'].includes(message?.type) && sender.id === chrome.runtime.id && sender.tab && sender.frameId === 0) schedule();
 });
+
+chrome.action.onClicked.addListener(() => { chrome.runtime.openOptionsPage().catch(console.error); });
