@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 import { initial, reconcile, delaySeconds, youtube } from '../extension/core.mjs';
-const create = vm.runInNewContext(readFileSync(new URL('../extension/youtube-controller.js', import.meta.url), 'utf8') + '\ncreateHearMyDotYouTubeController;');
+const create = vm.runInNewContext(readFileSync(new URL('../extension/media-controller.js', import.meta.url), 'utf8') + '\ncreateHearMyDotMediaController;');
 function fixture({ paused = false, reject = false } = {}) {
   const warnings = [];
   const video = {
@@ -12,7 +12,7 @@ function fixture({ paused = false, reject = false } = {}) {
     play() { this.plays++; if (reject) return Promise.reject(new Error('NotAllowedError')); this.paused = false; return Promise.resolve(); }
   };
   const env = { list: [video], url: 'https://www.youtube.com/watch?v=first' };
-  const controller = create({ videos: () => env.list, page: () => env.url, warn: message => warnings.push(message) });
+  const controller = create({ media: () => env.list, page: () => env.url, warn: message => warnings.push(message) });
   const focus = () => controller.sync({ active: true, cycle: 1 });
   const release = () => controller.sync({ active: false, cycle: 1 });
   return { video, env, controller, warnings, focus, release };

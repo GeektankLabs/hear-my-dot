@@ -1,6 +1,6 @@
 (() => {
-  const controller = createHearMyDotYouTubeController({
-    videos: () => document.querySelectorAll('video'),
+  const controller = createHearMyDotMediaController({
+    media: () => document.querySelectorAll('video'),
     page: () => location.href,
     warn: message => console.warn('Hear My Dot:', message)
   });
@@ -20,8 +20,7 @@
   new MutationObserver(controller.refresh).observe(document, { childList: true, subtree: true, attributes: true, attributeFilter: ['src'] });
   chrome.runtime.onMessage.addListener((message, _sender, respond) => {
     if (message?.type !== 'hear-my-dot-youtube') return;
-    controller.sync(message);
-    respond({ handled: true });
+    respond(controller.sync(message));
   });
   chrome.runtime.sendMessage({ type: 'hear-my-dot-youtube-ready' }).catch(() => {});
 })();

@@ -9,6 +9,12 @@ export function youtube(tab) {
     return url.protocol === 'https:' && ['youtube.com', 'www.youtube.com', 'm.youtube.com'].includes(url.hostname);
   } catch { return false; }
 }
+export function podverse(tab) {
+  try {
+    const url = new URL(tab.url);
+    return url.protocol === 'https:' && url.hostname === 'podverse.fm';
+  } catch { return false; }
+}
 export function sounds(tab) {
   return preferred(tab) && tab.audible && !tab.discarded && !tab.frozen && !tab.mutedInfo?.muted;
 }
@@ -35,13 +41,14 @@ export async function reconcile(api, state, settings, now) {
     // Refetch immediately before acting: navigation/close/user mute may race the query.
     let tab;
     try { tab = await api.tabs.get(snapshot.id); } catch { delete state.owned[key]; continue; }
-    let youtubeHandled = false;
-    if (youtube(tab)) {
+    let mediaHandled = false;
+    const adapter = youtube(tab) ? 'youtube' : podverse(tab) ? 'podverse' : null;
+    if (adapter) {
       try {
         const response = await api.tabs.sendMessage(tab.id, {
-          type: 'hear-my-dot-youtube', active: state.active, cycle: state.youtubeCycle || 0
+          type: `hear-my-dot-${adapter}`, active: state.active, cycle: state.youtubeCycle || 0
         }, { frameId: 0 });
-        youtubeHandled = response?.handled === true;
+        mediaHandled = response?.handled === true;
       } catch { /* Until the page is refreshed/accessible, use the existing mute fallback. */ }
     }
     // Recover an extension-owned mute after storage loss or browser restart.
@@ -49,13 +56,13 @@ export async function reconcile(api, state, settings, now) {
     if (key in state.owned && !ours(tab, api.runtime.id)) {
       delete state.owned[key]; state.exempt[key] = true;
     }
-    if (key in state.owned && (!state.active || preferred(tab) || youtubeHandled)) {
+    if (key in state.owned && (!state.active || preferred(tab) || mediaHandled)) {
       if (ours(tab, api.runtime.id)) {
         try { await api.tabs.update(tab.id, { muted: false }); }
         catch { continue; } // Keep ownership for a later retry.
       }
       delete state.owned[key];
-    } else if (state.active && !youtubeHandled && !preferred(tab) && !tab.mutedInfo?.muted && !state.exempt[key]) {
+    } else if (state.active && !mediaHandled && !preferred(tab) && !tab.mutedInfo?.muted && !state.exempt[key]) {
       state.owned[key] = true;
       await save();
       try { await api.tabs.update(tab.id, { muted: true }); }

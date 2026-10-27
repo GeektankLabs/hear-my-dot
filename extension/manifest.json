@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Hear My Dot",
-  "version": "0.2.0",
-  "description": "Pause YouTube and mute other tabs while ChatGPT produces audio, then restore owned changes.",
+  "version": "0.3.0",
+  "description": "Pause YouTube and Podverse, mute other tabs during ChatGPT audio, then restore owned changes.",
   "minimum_chrome_version": "120",
   "permissions": [
     "storage",
@@ -12,7 +12,8 @@
     "https://chatgpt.com/*",
     "https://youtube.com/*",
     "https://www.youtube.com/*",
-    "https://m.youtube.com/*"
+    "https://m.youtube.com/*",
+    "https://podverse.fm/*"
   ],
   "background": {
     "service_worker": "background.js",
@@ -31,8 +32,19 @@
         "https://m.youtube.com/*"
       ],
       "js": [
-        "youtube-controller.js",
+        "media-controller.js",
         "youtube.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": false
+    },
+    {
+      "matches": [
+        "https://podverse.fm/*"
+      ],
+      "js": [
+        "media-controller.js",
+        "podverse.js"
       ],
       "run_at": "document_idle",
       "all_frames": false

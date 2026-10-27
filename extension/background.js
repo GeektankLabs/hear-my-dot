@@ -27,5 +27,5 @@ chrome.runtime.onInstalled.addListener(schedule);
 schedule();
 
 chrome.runtime.onMessage.addListener((message, sender) => {
-  if (message?.type === 'hear-my-dot-youtube-ready' && sender.id === chrome.runtime.id && sender.tab && sender.frameId === 0) schedule();
+  if (['hear-my-dot-youtube-ready', 'hear-my-dot-podverse-ready'].includes(message?.type) && sender.id === chrome.runtime.id && sender.tab && sender.frameId === 0) schedule();
 });
