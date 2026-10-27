@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Headset command probe — local only</title><link rel="stylesheet" href="style.css"></head>
+<body><main>
+<p class="eyebrow">HEAR MY DOT / LOCAL DIAGNOSTIC</p>
+<h1>What reaches Chrome?</h1>
+<p>This opt-in probe records extension command events, not raw headset gestures. It does not pause, play, mute, record audio, or change shortcuts.</p>
+<section><h2>1. Review bindings</h2>
+<p>All commands start unbound. In <code>chrome://extensions/shortcuts</code>, manually assign only the media key you intend to test. Keep its scope <strong>In Chrome</strong>. Test one binding at a time.</p>
+<p>A test binding may take the key away from normal player control. Remove it after testing. An empty binding means unassigned or unavailable; Chrome does not tell this probe which app or extension owns a conflicting shortcut.</p>
+<button id="refresh">Refresh actual bindings</button><span id="binding-status" role="status"></span>
+<table><thead><tr><th>Probe command</th><th>Suggested test key (not assigned)</th><th>Actual Chrome binding</th></tr></thead><tbody id="bindings"></tbody></table>
+</section>
+<section><h2>2. Press the real headset button</h2>
+<p>Keep Chrome focused. Try one press, then two quick presses, then a long press. Leave a few seconds between attempts. Describe the gesture yourself; the log only shows received commands and their arrival intervals.</p>
+<p>No event is inconclusive: routing, binding conflicts, an unsupported headset signal, or the selected scope may be responsible. API support is not proof that your hardware sends that command.</p>
+<button id="clear">Clear local log</button><span id="log-status" role="status">Waiting for command events.</span>
+<table><thead><tr><th>Received (local time)</th><th>Command</th><th>Gap since previous event</th></tr></thead><tbody id="events"></tbody></table>
+<p class="note">No network or permanent storage. The page keeps up to 100 events while open; worker history can disappear when Chrome suspends it. Copy any observations before closing the page. Timestamps are receipt times, not physical press duration.</p>
+</section>
+<section><h2>3. Finish</h2><p>Clear all probe bindings in Chrome's shortcut settings, then remove this diagnostic extension. Your main Hear My Dot installation is unchanged.</p></section>
+</main><script src="index.js"></script></body></html>

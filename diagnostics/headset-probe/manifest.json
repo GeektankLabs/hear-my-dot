@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Hear My Dot — Headset Command Probe",
+  "version": "0.0.1",
+  "description": "Opt-in local command diagnostics. No default bindings, media control, or telemetry.",
+  "minimum_chrome_version": "120",
+  "background": { "service_worker": "background.js" },
+  "action": { "default_title": "Open local headset command diagnostics" },
+  "commands": {
+    "probe-play-pause": { "description": "Probe: manually assign MediaPlayPause if desired" },
+    "probe-next": { "description": "Probe: manually assign MediaNextTrack if desired" },
+    "probe-previous": { "description": "Probe: manually assign MediaPrevTrack if desired" },
+    "probe-stop": { "description": "Probe: manually assign MediaStop if desired" }
+  },
+  "incognito": "not_allowed"
+}

@@ -75,3 +75,17 @@ Original, independently written code under the MIT License; see [LICENSE](LICENS
 - [Native Messaging](https://developer.chrome.com/docs/extensions/develop/concepts/native-messaging): possible future coordination, not implemented here.
 
 - [Chrome Content Scripts](https://developer.chrome.com/docs/extensions/develop/concepts/content-scripts): isolated execution and static content-script declarations.
+
+## Optional headset command diagnostic
+
+A separate, opt-in test extension lives in [`diagnostics/headset-probe/`](diagnostics/headset-probe/README.txt). It reports actual shortcut bindings and received extension commands without controlling media. It has no permissions, host access, default key assignments, global shortcuts, microphone access, network requests, or permanent logs.
+
+After `git pull --ff-only`, use **Load unpacked** in `chrome://extensions` and select **`diagnostics/headset-probe/`**, not the main `extension/` directory. Open the probe via its own extension icon. Follow its instructions to assign one intended media key manually under `chrome://extensions/shortcuts`, keep scope **In Chrome**, refresh the binding display, and test your actual headset. Remove the test binding and probe afterwards; a manually assigned probe key may replace normal player control while assigned.
+
+Single/double/long presses must be observed on the real hardware. `commands.onCommand` does not expose raw keydown/keyup, press duration, or headset identity. Missing events or empty bindings do not identify the cause of a routing/conflict problem. The main plugin remains version 0.3.1; no background-toggle mode is included in this diagnostic release.
+
+Run the isolated probe checks with:
+
+```sh
+node --test diagnostics/headset-probe/tests/*.test.mjs
+```
