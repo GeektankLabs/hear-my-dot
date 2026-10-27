@@ -1,12 +1,41 @@
 {
   "manifest_version": 3,
   "name": "Hear My Dot",
-  "version": "0.1.0",
-  "description": "Mute other tabs while ChatGPT produces audio, then restore their state.",
+  "version": "0.2.0",
+  "description": "Pause YouTube and mute other tabs while ChatGPT produces audio, then restore owned changes.",
   "minimum_chrome_version": "120",
-  "permissions": ["storage", "alarms"],
-  "host_permissions": ["https://chatgpt.com/*"],
-  "background": {"service_worker": "background.js", "type": "module"},
-  "options_ui": {"page": "options.html", "open_in_tab": true},
-  "incognito": "not_allowed"
+  "permissions": [
+    "storage",
+    "alarms"
+  ],
+  "host_permissions": [
+    "https://chatgpt.com/*",
+    "https://youtube.com/*",
+    "https://www.youtube.com/*",
+    "https://m.youtube.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "incognito": "not_allowed",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://youtube.com/*",
+        "https://www.youtube.com/*",
+        "https://m.youtube.com/*"
+      ],
+      "js": [
+        "youtube-controller.js",
+        "youtube.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ]
 }

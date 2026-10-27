@@ -4,7 +4,7 @@ let timer;
 function schedule() {
   queue = queue.then(async () => {
     const { focusState = initial() } = await chrome.storage.session.get('focusState');
-    const settings = await chrome.storage.local.get({ enabled: true, quietSeconds: 20 });
+    const settings = await chrome.storage.local.get({ enabled: true, quietSeconds: 10 });
     const due = await reconcile(chrome, focusState, settings, Date.now());
     clearTimeout(timer);
     await chrome.alarms.clear('release');
@@ -25,3 +25,7 @@ chrome.storage.onChanged.addListener((_changes, area) => { if (area === 'local')
 chrome.runtime.onStartup.addListener(schedule);
 chrome.runtime.onInstalled.addListener(schedule);
 schedule();
+
+chrome.runtime.onMessage.addListener((message, sender) => {
+  if (message?.type === 'hear-my-dot-youtube-ready' && sender.id === chrome.runtime.id && sender.tab && sender.frameId === 0) schedule();
+});
