@@ -6,5 +6,5 @@ chrome.storage.local.get({ enabled: true, quietSeconds: 10 }).then(settings => {
 document.querySelector('#save').addEventListener('click', async () => {
   if (!quiet.reportValidity()) return;
   await chrome.storage.local.set({ enabled: enabled.checked, quietSeconds: Number(quiet.value) });
-  document.querySelector('#status').textContent = 'Gespeichert.';
+  document.querySelector('#status').textContent = 'Settings saved.';
 });

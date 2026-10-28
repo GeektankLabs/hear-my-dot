@@ -1,0 +1,62 @@
+:root {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #10283f;
+  background: #f3f6f5;
+  font-size: 16px;
+  line-height: 1.6;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+.settings { width: min(100% - 48px, 720px); margin: 48px auto 28px; }
+.brand { display: flex; align-items: center; gap: 15px; }
+.brand img { flex: none; }
+.brand p { margin: 0; }
+.brand-name { font-size: 21px; font-weight: 750; letter-spacing: -.025em; }
+.eyebrow { color: #526775; font-size: 11px; font-weight: 700; letter-spacing: .17em; }
+.intro { margin: 36px 0 28px; }
+.scope { display: inline-block; padding: 4px 10px; border: 1px solid #c6dcd7; border-radius: 6px; color: #005b57; font-size: 12px; font-weight: 650; }
+h1 { margin: 12px 0; font-size: clamp(28px, 5vw, 38px); line-height: 1.2; letter-spacing: -.035em; font-weight: 750; }
+p { margin: 0; }
+.intro p { max-width: 650px; color: #465c69; }
+h2 { margin: 0; font-size: 17px; line-height: 1.45; }
+.panel { overflow: hidden; background: #fff; border: 1px solid #d8e2df; border-radius: 18px; box-shadow: 0 6px 24px #10283f06; }
+.panel-heading { padding: 23px 28px 20px; border-bottom: 1px solid #e5ece9; }
+.panel-heading h2 { font-size: 20px; }
+.panel-heading p { margin-top: 3px; color: #526775; font-size: 13px; }
+.setting-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 28px; align-items: center; padding: 24px 28px; }
+.priority-row { border-bottom: 1px solid #e5ece9; }
+.setting-label { display: inline-block; font-size: 16px; font-weight: 700; cursor: pointer; }
+.help { color: #526775; font-size: 14px; line-height: 1.55; margin-top: 7px; max-width: 440px; }
+#enabled { width: 26px; height: 26px; margin: 9px; accent-color: #005b57; cursor: pointer; }
+.number-field { display: flex; align-items: center; gap: 9px; }
+.number-field span { color: #526775; font-size: 13px; }
+#quiet { width: 78px; min-height: 46px; padding: 8px 10px; border: 1px solid #a5b7b2; border-radius: 8px; background: #fff; color: #10283f; font: inherit; font-weight: 600; }
+.panel-footer { padding: 20px 28px; background: #f8faf9; border-top: 1px solid #e5ece9; display: flex; align-items: center; gap: 18px; }
+button { min-height: 46px; padding: 10px 22px; border: 1px solid #005b57; border-radius: 9px; background: #005b57; color: #fff; font: inherit; font-size: 14px; font-weight: 650; cursor: pointer; }
+button:hover { background: #004b48; }
+button:active { background: #003f3c; }
+:focus-visible { outline: 3px solid #227e9f; outline-offset: 4px; }
+#status { min-height: 24px; color: #005b57; font-size: 14px; }
+.details { padding: 27px 4px 23px; }
+.details p { margin-top: 8px; color: #526775; font-size: 14px; }
+#timing-note { font-size: 13px; }
+.removal-note { display: flex; align-items: flex-start; gap: 13px; border: 1px solid #d3e3df; border-radius: 12px; background: #eaf2ef; padding: 18px 20px; }
+.note-mark { flex: none; width: 22px; height: 22px; border: 1.5px solid #38675c; border-radius: 50%; color: #38675c; text-align: center; font-size: 13px; font-weight: 700; line-height: 19px; margin-top: 2px; }
+.removal-note h2 { font-size: 14px; }
+.removal-note p { margin-top: 5px; color: #465c69; font-size: 13px; }
+.page-footer { margin-top: 24px; color: #526775; font-size: 12px; text-align: center; }
+@media (max-width: 540px) {
+  .settings { width: calc(100% - 32px); margin-top: 26px; }
+  .brand img { width: 52px; height: 52px; }
+  .intro { margin-top: 28px; }
+  .panel-heading, .setting-row, .panel-footer { padding: 20px; }
+  .setting-row { gap: 12px; }
+  .quiet-row { grid-template-columns: 1fr; gap: 14px; }
+  .panel-footer { flex-wrap: wrap; gap: 10px 16px; }
+  .removal-note { padding: 17px; }
+}
+@media (forced-colors: active) {
+  .scope, .panel, .removal-note, #quiet, button { border-color: CanvasText; }
+  .note-mark { border-color: CanvasText; }
+}
